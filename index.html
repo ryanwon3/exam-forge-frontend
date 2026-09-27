@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Turn math study guides and practice exams into a fresh practice exam with detailed solutions."
+    />
+    <title>Exam Forge</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css?v=1" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Exam Forge home">
+          <span class="brand-mark" aria-hidden="true">EF</span>
+          <span>Exam Forge</span>
+        </a>
+        <div class="service-status" id="service-status" role="status">
+          <span class="status-dot"></span>
+          <span id="status-label">Checking backend</span>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="eyebrow">Study smarter, with your own materials</div>
+          <h1 id="hero-title">A fresh math exam,<br /><span>forged from your notes.</span></h1>
+          <p>
+            Upload a topic guide or practice exam. Exam Forge creates original problems
+            and a separate, step-by-step solution set in minutes.
+          </p>
+          <div class="hero-proof" aria-label="Product features">
+            <span>PDF input</span>
+            <span>Original questions</span>
+            <span>Detailed solutions</span>
+          </div>
+        </section>
+
+        <section class="workspace" aria-labelledby="builder-title">
+          <div class="workspace-heading">
+            <div>
+              <span class="step-number">01</span>
+              <h2 id="builder-title">Build your practice exam</h2>
+            </div>
+            <p>Files are used only for this generation. Avoid uploading private information.</p>
+          </div>
+
+          <form id="exam-form" novalidate>
+            <div class="form-grid">
+              <div class="left-column">
+                <div class="field-group">
+                  <label class="field-label" for="pdf-files">Reference PDFs</label>
+                  <div class="drop-zone" id="drop-zone">
+                    <input
+                      id="pdf-files"
+                      name="files"
+                      type="file"
+                      accept="application/pdf,.pdf"
+                      multiple
+                      required
+                    />
+                    <div class="upload-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 16V4m0 0L7 9m5-5 5 5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
+                      </svg>
+                    </div>
+                    <strong>Drop PDFs here</strong>
+                    <span>or click to choose up to 3 files</span>
+                    <small>8 MB per file · 20 MB total</small>
+                  </div>
+                  <ul class="file-list" id="file-list" aria-live="polite"></ul>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="exam-title">Exam title</label>
+                  <input
+                    id="exam-title"
+                    name="title"
+                    type="text"
+                    maxlength="100"
+                    value="Math Practice Exam"
+                    required
+                  />
+                </div>
+
+                <div class="settings-row">
+                  <div class="field-group">
+                    <label class="field-label" for="question-count">Questions</label>
+                    <div class="range-control">
+                      <input
+                        id="question-count"
+                        name="question_count"
+                        type="range"
+                        min="3"
+                        max="12"
+                        value="6"
+                      />
+                      <output id="question-count-output" for="question-count">6</output>
+                    </div>
+                  </div>
+
+                  <fieldset class="field-group">
+                    <legend class="field-label">Difficulty</legend>
+                    <div class="segmented-control">
+                      <label><input type="radio" name="difficulty" value="easy" /><span>Easy</span></label>
+                      <label><input type="radio" name="difficulty" value="medium" checked /><span>Medium</span></label>
+                      <label><input type="radio" name="difficulty" value="hard" /><span>Hard</span></label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <fieldset class="field-group">
+                  <legend class="field-label">Question types</legend>
+                  <div class="type-options">
+                    <label class="check-card">
+                      <input type="checkbox" name="question_type" value="short_answer" checked />
+                      <span class="custom-check" aria-hidden="true"></span>
+                      <span><strong>Short answer</strong><small>Focused problems with concise work</small></span>
+                    </label>
+                    <label class="check-card">
+                      <input type="checkbox" name="question_type" value="free_response" checked />
+                      <span class="custom-check" aria-hidden="true"></span>
+                      <span><strong>Free response</strong><small>Multi-step reasoning and explanation</small></span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="right-column">
+                <div class="chat-card">
+                  <div class="chat-header">
+                    <div class="assistant-avatar">EF</div>
+                    <div><strong>Exam Forge</strong><span>Optional instructions</span></div>
+                  </div>
+                  <div class="assistant-message">
+                    Tell me what to emphasize, avoid, or change about this exam.
+                  </div>
+                  <label class="sr-only" for="special-instructions">Special instructions</label>
+                  <textarea
+                    id="special-instructions"
+                    name="special_instructions"
+                    maxlength="1000"
+                    placeholder="For example: Focus on optimization and related rates. Avoid proofs. Include one challenging word problem."
+                  ></textarea>
+                  <div class="prompt-suggestions" aria-label="Instruction suggestions">
+                    <button type="button" data-prompt="Emphasize conceptual understanding.">Conceptual</button>
+                    <button type="button" data-prompt="Include one challenging application problem.">Application</button>
+                    <button type="button" data-prompt="Use clean numbers where possible.">Clean numbers</button>
+                  </div>
+                </div>
+
+                <div class="output-preview">
+                  <div class="preview-stack" aria-hidden="true">
+                    <div class="paper paper-back"></div>
+                    <div class="paper paper-front">
+                      <span class="paper-label">YOU'LL RECEIVE</span>
+                      <strong>Practice exam</strong>
+                      <div class="paper-line long"></div>
+                      <div class="paper-line"></div>
+                      <div class="paper-equation">f′(x) = 0</div>
+                      <div class="paper-line long"></div>
+                      <div class="paper-line short"></div>
+                    </div>
+                  </div>
+                  <div class="output-copy">
+                    <strong>Two polished PDFs</strong>
+                    <span>One for practice. One with complete worked solutions.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <div class="privacy-note">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 10V7a5 5 0 0 1 10 0v3M6 10h12v10H6V10Z" />
+                </svg>
+                Your OpenAI key stays on the backend.
+              </div>
+              <button class="generate-button" id="generate-button" type="submit">
+                <span>Generate exam</span>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="result-panel" id="result-panel" hidden aria-live="polite">
+            <div class="result-icon" aria-hidden="true">✓</div>
+            <div class="result-copy">
+              <span class="result-eyebrow">Generation complete</span>
+              <h3>Your new practice set is ready.</h3>
+              <p>Download both files now. Temporary hosting can remove them at any time.</p>
+            </div>
+            <div class="result-actions">
+              <a id="exam-download" class="download primary" href="#" download>Practice exam PDF</a>
+              <a id="solutions-download" class="download secondary" href="#" download>Solutions PDF</a>
+            </div>
+          </div>
+
+          <div class="error-panel" id="error-panel" hidden role="alert"></div>
+        </section>
+
+        <section class="how-it-works" aria-labelledby="how-title">
+          <div>
+            <span class="step-number">02</span>
+            <h2 id="how-title">From source material to study session</h2>
+          </div>
+          <ol>
+            <li><span>1</span><div><strong>Upload</strong><p>Add a topic guide, practice exam, or both.</p></div></li>
+            <li><span>2</span><div><strong>Shape</strong><p>Choose the length, difficulty, and response style.</p></div></li>
+            <li><span>3</span><div><strong>Practice</strong><p>Download the exam first, then check the worked solutions.</p></div></li>
+          </ol>
+        </section>
+      </main>
+
+      <footer>
+        <span>Exam Forge · An AI-assisted educational project</span>
+        <span>Always verify generated solutions.</span>
+      </footer>
+    </div>
+
+    <script src="config.js?v=1"></script>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>
