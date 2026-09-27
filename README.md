@@ -4,9 +4,13 @@ This is the static GitHub Pages interface for Exam Forge. It uses only HTML, CSS
 and JavaScript and sends PDF uploads directly to the separately deployed FastAPI
 backend.
 
+- Live site: <https://ryanwon3.github.io/exam-forge-frontend/>
+- Backend API: <https://exam-forge-backend.onrender.com>
+
 ## Configure the backend URL
 
-After deploying the backend to Render, edit `config.js`:
+The checked-in `config.js` points to the live Render service. If you deploy your own
+copy of the backend, edit it to use that service URL:
 
 ```js
 window.EXAM_APP_CONFIG = {
@@ -36,4 +40,3 @@ Open `http://localhost:5500`.
 5. Put that Pages origin in the backend's `ALLOWED_ORIGINS` Render environment
    variable and redeploy the backend.
 6. Test the complete upload and download flow in an incognito window.
-
